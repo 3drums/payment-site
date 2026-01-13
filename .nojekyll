@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- НЕ используйте meta CSP - GitHub его переопределяет -->
+    <!-- Вместо этого используем заголовки через .htaccess аналог -->
+    
+    <title>Оплата услуги | Онлайн-платежи</title>
+    
+    <!-- Загружаем CSS через локальную копию или другой CDN -->
+    <style>
+        /* Вставляем CSS напрямую */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .submit-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 30px; color: #333;">💳 Оплата услуги</h1>
+        
+        <!-- Простая форма вместо ЮKassa -->
+        <form id="paymentForm" action="https://yookassa.ru/integration/simplepay/payment" method="post">
+            <div class="form-group">
+                <label for="phone">Телефон *</label>
+                <input type="tel" id="phone" name="cps_phone" placeholder="+7 (999) 123-45-67" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="name">ФИО *</label>
+                <input type="text" id="name" name="custName" placeholder="Иванов Иван Иванович" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="amount">Сумма (руб) *</label>
+                <input type="number" id="amount" name="sum" min="1" max="1000000" placeholder="1000" required>
+            </div>
+            
+            <!-- Скрытые поля ЮKassa -->
+            <input type="hidden" name="shopId" value="ВАШ_SHOP_ID">
+            <input type="hidden" name="sumEqualPrice" value="true">
+            <input type="hidden" name="ym_merchant_receipt" value="">
+            
+            <button type="submit" class="submit-btn">Перейти к оплате →</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+            После нажатия кнопки вы будете перенаправлены<br>на защищенную страницу оплаты ЮKassa
+        </p>
+    </div>
+    
+    <!-- ВАЖНО: Не подключаем внешние скрипты -->
+    <!-- ЮKassa сама обработает форму -->
+</body>
+</html>
