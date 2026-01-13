@@ -78,7 +78,6 @@
                 gap: 10px;
             }
             
-            /* Адаптация для формы ЮKassa на мобильных */
             .ym-payment-btn-block {
                 flex-direction: column !important;
             }
@@ -121,6 +120,19 @@
             transform: translateY(-2px) !important;
             box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3) !important;
         }
+        
+        /* Стиль для ошибок валидации */
+        .error-border {
+            border-color: #ff4444 !important;
+            background-color: #fff8f8 !important;
+        }
+        
+        .error-message {
+            color: #ff4444;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -131,9 +143,9 @@
         </div>
         
         <!-- ОРИГИНАЛЬНАЯ ФОРМА ЮKassa -->
-        <form class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post" accept-charset="utf-8">
+        <form class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post" accept-charset="utf-8" id="paymentForm">
             
-            <!-- Скрытый блок товаров (обязателен для ЮKassa) -->
+            <!-- Скрытый блок товаров -->
             <div class="ym-products ym-display-none">
                 <div class="ym-block-title ym-products-title">Товары</div>
                 <div class="ym-product">
@@ -159,12 +171,24 @@
             <!-- Блок с информацией о покупателе -->
             <div class="ym-customer-info">
                 <div class="ym-block-title">Данные для оплаты</div>
-                <input name="cps_phone" 
-                       class="ym-input" 
-                       placeholder="Телефон *" 
-                       type="tel" 
-                       value=""
-                       required>
+                
+                <!-- Поле телефона -->
+                <div style="margin-bottom: 15px;">
+                    <input name="cps_phone" 
+                           id="phoneInput"
+                           class="ym-input" 
+                           placeholder="Телефон (только цифры, начиная с 8)" 
+                           type="tel" 
+                           value=""
+                           maxlength="11"
+                           pattern="8[0-9]{10}"
+                           title="Введите 11 цифр, начиная с 8"
+                           required>
+                    <div id="phoneError" class="error-message">
+                        Введите ровно 11 цифр, номер должен начинаться с 8
+                    </div>
+                </div>
+                
                 <input name="custName" 
                        class="ym-input" 
                        placeholder="ФИО *" 
@@ -222,114 +246,110 @@
     <!-- ОРИГИНАЛЬНЫЙ СКРИПТ ЮKassa -->
     <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.31.0"></script>
     
-    <!-- Дополнительный скрипт для улучшения UX -->
+    <!-- Скрипт для валидации телефона -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Упрощенная маска для телефона
-            const phoneInput = document.querySelector('input[name="cps_phone"]');
+            const phoneInput = document.getElementById('phoneInput');
+            const phoneError = document.getElementById('phoneError');
+            const form = document.getElementById('paymentForm');
             
-            if (phoneInput) {
-                // Простая маска: разрешаем только цифры и + в начале
-                phoneInput.addEventListener('input', function(e) {
-                    let value = e.target.value;
-                    
-                    // Удаляем все символы кроме цифр и +
-                    let cleanValue = value.replace(/[^\d+]/g, '');
-                    
-                    // Если начинается не с +7, добавляем +7
-                    if (!cleanValue.startsWith('+7') && cleanValue.length > 0) {
-                        // Если начинается с 7 или 8, добавляем +
-                        if (cleanValue.startsWith('7') || cleanValue.startsWith('8')) {
-                            cleanValue = '+7' + cleanValue.substring(1);
-                        } else {
-                            cleanValue = '+7' + cleanValue;
-                        }
-                    }
-                    
-                    // Ограничиваем длину (11 цифр после +7)
-                    if (cleanValue.length > 12) { // +7 + 10 цифр
-                        cleanValue = cleanValue.substring(0, 12);
-                    }
-                    
-                    // Форматируем для отображения
-                    let displayValue = cleanValue;
-                    if (cleanValue.length >= 4) {
-                        displayValue = cleanValue.substring(0, 2) + ' ' + 
-                                     cleanValue.substring(2, 5);
-                    }
-                    if (cleanValue.length >= 7) {
-                        displayValue += ' ' + cleanValue.substring(5, 8);
-                    }
-                    if (cleanValue.length >= 9) {
-                        displayValue += '-' + cleanValue.substring(8, 10);
-                    }
-                    if (cleanValue.length >= 11) {
-                        displayValue += '-' + cleanValue.substring(10, 12);
-                    }
-                    
-                    e.target.value = displayValue;
-                });
+            // 1. Разрешаем ввод только цифр
+            phoneInput.addEventListener('input', function(e) {
+                // Удаляем все нецифровые символы
+                let value = e.target.value.replace(/\D/g, '');
                 
-                // При фокусе устанавливаем курсор в конец
-                phoneInput.addEventListener('focus', function() {
-                    if (!this.value) {
-                        this.value = '+7 ';
-                    }
-                    // Перемещаем курсор в конец
-                    setTimeout(() => {
-                        this.selectionStart = this.selectionEnd = this.value.length;
-                    }, 0);
-                });
+                // Если номер не начинается с 8, добавляем 8
+                if (value.length > 0 && value[0] !== '8') {
+                    value = '8' + value;
+                }
                 
-                // Валидация при отправке
-                const form = document.querySelector('.yoomoney-payment-form');
-                if (form) {
-                    form.addEventListener('submit', function(e) {
-                        // Проверяем телефон
-                        const phoneDigits = phoneInput.value.replace(/\D/g, '');
-                        if (phoneDigits.length !== 11) {
-                            e.preventDefault();
-                            alert('Пожалуйста, введите корректный номер телефона (11 цифр)\nПример: +7 999 123-45-67');
-                            phoneInput.focus();
-                            return false;
-                        }
-                        
-                        // Проверяем сумму
-                        const amountInput = document.querySelector('input[name="sum"]');
-                        if (amountInput) {
-                            const amount = parseFloat(amountInput.value);
-                            if (amount < 1) {
-                                e.preventDefault();
-                                alert('Минимальная сумма платежа: 1 рубль');
-                                amountInput.focus();
-                                return false;
-                            }
-                            if (amount > 1000000) {
-                                e.preventDefault();
-                                alert('Максимальная сумма платежа: 1 000 000 рублей');
-                                amountInput.focus();
-                                return false;
-                            }
-                        }
-                        
-                        return true;
-                    });
+                // Ограничиваем 11 цифрами
+                if (value.length > 11) {
+                    value = value.substring(0, 11);
+                }
+                
+                e.target.value = value;
+                
+                // Проверяем валидность и показываем/скрываем ошибку
+                validatePhone();
+            });
+            
+            // 2. Валидация при потере фокуса
+            phoneInput.addEventListener('blur', function() {
+                validatePhone();
+            });
+            
+            // 3. Функция валидации телефона
+            function validatePhone() {
+                const value = phoneInput.value;
+                const isValid = /^8\d{10}$/.test(value);
+                
+                if (value && !isValid) {
+                    phoneInput.classList.add('error-border');
+                    phoneError.style.display = 'block';
+                    return false;
+                } else {
+                    phoneInput.classList.remove('error-border');
+                    phoneError.style.display = 'none';
+                    return true;
                 }
             }
             
-            // Обновляем отображение суммы в реальном времени
+            // 4. Валидация при отправке формы
+            form.addEventListener('submit', function(e) {
+                // Проверяем телефон
+                const phoneValue = phoneInput.value;
+                const isPhoneValid = /^8\d{10}$/.test(phoneValue);
+                
+                if (!isPhoneValid) {
+                    e.preventDefault();
+                    phoneInput.classList.add('error-border');
+                    phoneError.style.display = 'block';
+                    phoneInput.focus();
+                    
+                    alert('Пожалуйста, введите корректный номер телефона:\n' +
+                          '• Только цифры\n' +
+                          '• Начинается с 8\n' +
+                          '• Всего 11 цифр\n' +
+                          'Пример: 89991234567');
+                    return false;
+                }
+                
+                // Проверяем сумму
+                const amountInput = document.querySelector('input[name="sum"]');
+                if (amountInput) {
+                    const amount = parseFloat(amountInput.value);
+                    if (amount < 1) {
+                        e.preventDefault();
+                        alert('Минимальная сумма платежа: 1 рубль');
+                        amountInput.focus();
+                        return false;
+                    }
+                    if (amount > 1000000) {
+                        e.preventDefault();
+                        alert('Максимальная сумма платежа: 1 000 000 рублей');
+                        amountInput.focus();
+                        return false;
+                    }
+                }
+                
+                // Если нужен формат +7 для отправки (ЮKassa ожидает +7)
+                // Преобразуем 8XXXXXXXXXX в +7XXXXXXXXXX
+                phoneInput.value = '+7' + phoneValue.substring(1);
+                
+                return true;
+            });
+            
+            // 5. Обновляем отображение суммы в реальном времени
             const amountInput = document.querySelector('input[name="sum"]');
             if (amountInput) {
-                amountInput.addEventListener('input', function() {
-                    updateButtonPrice();
-                });
+                amountInput.addEventListener('input', updateButtonPrice);
                 
                 function updateButtonPrice() {
                     const priceOutput = document.querySelector('.ym-price-output');
                     if (priceOutput && amountInput.value) {
                         const amount = parseFloat(amountInput.value);
                         if (!isNaN(amount) && amount > 0) {
-                            // Форматируем сумму с разделителями тысяч
                             const formatted = amount.toLocaleString('ru-RU', {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2
@@ -341,9 +361,41 @@
                     }
                 }
                 
-                // Запускаем сразу при загрузке
                 updateButtonPrice();
             }
+            
+            // 6. Подсказка при фокусе
+            phoneInput.addEventListener('focus', function() {
+                if (!this.value) {
+                    this.placeholder = 'Пример: 89991234567';
+                }
+            });
+            
+            phoneInput.addEventListener('blur', function() {
+                this.placeholder = 'Телефон (только цифры, начиная с 8)';
+            });
+            
+            // 7. Преобразование для отображения (если нужно показать в формате)
+            // При вводе показываем просто цифры, но при фокусе показываем подсказку
+            phoneInput.addEventListener('focus', function() {
+                // Сохраняем текущее значение
+                const currentValue = this.value;
+                
+                // Если есть значение, показываем в читаемом формате
+                if (currentValue && /^8\d{10}$/.test(currentValue)) {
+                    const formatted = currentValue.replace(/^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})$/, 
+                        '+$1 ($2) $3-$4-$5');
+                    this.value = formatted;
+                }
+            });
+            
+            phoneInput.addEventListener('blur', function() {
+                // Возвращаем обратно в цифровой формат
+                const currentValue = this.value.replace(/\D/g, '');
+                if (currentValue.length === 11 && currentValue[0] === '8') {
+                    this.value = currentValue;
+                }
+            });
         });
     </script>
 </body>
