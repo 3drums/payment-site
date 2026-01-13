@@ -3,310 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSP, разрешающий все необходимые домены -->
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self' https://yookassa.ru https://*.yookassa.ru https://gtmpx.com https://*.gtmpx.com https://zmstat.com https://*.zmstat.com; 
-                  script-src 'self' 'unsafe-inline' https://yookassa.ru https://*.yookassa.ru https://gtmpx.com https://*.gtmpx.com https://zmstat.com https://*.zmstat.com; 
-                  style-src 'self' 'unsafe-inline' https://yookassa.ru https://*.yookassa.ru; 
-                  img-src 'self' data: https://yookassa.ru https://*.yookassa.ru https://zmstat.com https://*.zmstat.com;">
+    <title>Оплата услуги | ЮKassa</title>
     
-    <title>Оплата услуги | Онлайн-платежи</title>
-    
-    <link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css?v=1.31.0">
-    
+    <!-- НЕ используем внешние CSS - встраиваем стили -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
+        /* Стили формы ЮKassa локально */
+        .yoomoney-payment-form {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .ym-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
             box-sizing: border-box;
         }
         
+        .ym-input:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+        
+        .ym-btn-pay {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .ym-btn-pay:hover {
+            transform: translateY(-2px);
+        }
+        
+        .ym-block-title {
+            font-weight: 600;
+            margin: 20px 0 10px 0;
+            color: #333;
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
         
-        .payment-container {
-            max-width: 500px;
-            width: 100%;
+        .container {
             background: white;
             border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
         }
         
-        .header {
-            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-            color: white;
-            padding: 30px;
+        h1 {
             text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            opacity: 0.9;
-            font-size: 16px;
-        }
-        
-        .form-wrapper {
-            padding: 30px;
-        }
-        
-        .instructions {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-left: 4px solid #4CAF50;
-        }
-        
-        .instructions h3 {
             color: #333;
-            margin-bottom: 10px;
-            font-size: 18px;
+            margin-bottom: 30px;
+            font-size: 28px;
         }
         
-        .instructions ul {
-            padding-left: 20px;
-            color: #555;
-            line-height: 1.6;
-        }
-        
-        .instructions li {
-            margin-bottom: 8px;
-        }
-        
-        .security-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+        .security-info {
+            text-align: center;
             margin-top: 25px;
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 10px;
             color: #666;
             font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
         }
         
         @media (max-width: 600px) {
-            .payment-container {
-                border-radius: 15px;
+            .container {
+                padding: 25px;
+                margin: 10px;
             }
             
-            .header {
-                padding: 20px;
-            }
-            
-            .header h1 {
+            h1 {
                 font-size: 24px;
-            }
-            
-            .form-wrapper {
-                padding: 20px;
-            }
-            
-            .ym-payment-btn-block {
-                flex-direction: column !important;
-            }
-            
-            .ym-sum-input {
-                width: 100% !important;
-                margin-bottom: 15px;
-            }
-            
-            .ym-btn-pay {
-                width: 100% !important;
-            }
-            
-            .ym-logo {
-                display: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="payment-container">
-        <div class="header">
-            <h1>💳 Безопасная оплата</h1>
-            <p>Оплата услуг через защищенное соединение</p>
-        </div>
+    <div class="container">
+        <h1>💳 Оплата услуги</h1>
         
-        <div class="form-wrapper">
-            <div class="instructions">
-                <h3>📋 Как оплатить:</h3>
-                <ul>
-                    <li>Укажите сумму платежа</li>
-                    <li>Введите ваш номер телефона</li>
-                    <li>Укажите ваше ФИО</li>
-                    <li>Нажмите "Заплатить" для перехода к оплате</li>
-                </ul>
+        <!-- УПРОЩЕННАЯ ФОРМА БЕЗ ВНЕШНИХ СКРИПТОВ -->
+        <form class="yoomoney-payment-form" 
+              action="https://yookassa.ru/integration/simplepay/payment" 
+              method="post" 
+              accept-charset="utf-8"
+              onsubmit="return validateForm()">
+            
+            <!-- Скрытые поля, необходимые для ЮKassa -->
+            <input type="hidden" name="sumEqualPrice" value="true">
+            <input type="hidden" name="ym_merchant_receipt" value="">
+            <input type="hidden" name="shopId" value="1243739"> <!-- ЗАМЕНИТЕ НА ВАШ -->
+            
+            <!-- Блок товаров (скрыт) -->
+            <div style="display: none;">
+                <input disabled type="hidden" name="text" value="">
+                <input disabled type="hidden" name="price" value="0.0">
+                <input disabled type="hidden" name="quantity" value="1">
+                <input disabled type="hidden" name="paymentSubjectType" value="commodity">
+                <input disabled type="hidden" name="paymentMethodType" value="full_prepayment">
+                <input disabled type="hidden" name="tax" value="1">
             </div>
             
-            <form class="yoomoney-payment-form" 
-                  action="https://yookassa.ru/integration/simplepay/payment" 
-                  method="post" 
-                  accept-charset="utf-8">
+            <!-- Поля для ввода данных -->
+            <div class="ym-customer-info">
+                <div class="ym-block-title">Данные для оплаты</div>
                 
-                <!-- Скрытый блок товаров -->
-                <div class="ym-products ym-display-none">
-                    <div class="ym-block-title ym-products-title">Товары</div>
-                    <div class="ym-product">
-                        <div class="ym-product-line">
-                            <span class="ym-product-description">
-                                <span class="ym-product-count">1×</span>
-                            </span>
-                            <span class="ym-product-price" data-price="0.0" data-id="488" data-count="1">
-                                0,00&nbsp;₽
-                            </span>
-                        </div>
-                        <input disabled type="hidden" name="text" value="">
-                        <input disabled type="hidden" name="price" value="0.0">
-                        <input disabled type="hidden" name="quantity" value="1">
-                        <input disabled type="hidden" name="paymentSubjectType" value="commodity">
-                        <input disabled type="hidden" name="paymentMethodType" value="full_prepayment">
-                        <input disabled type="hidden" name="tax" value="1">
-                    </div>
-                </div>
+                <input name="cps_phone" 
+                       class="ym-input" 
+                       placeholder="Телефон *" 
+                       type="tel" 
+                       id="phoneInput"
+                       pattern="\+7\s?[\(]?[0-9]{3}[\)]?\s?\d{3}[-]?\d{2}[-]?\d{2}"
+                       title="Формат: +7 (999) 123-45-67"
+                       required>
                 
-                <input value="" type="hidden" name="ym_merchant_receipt">
-                
-                <div class="ym-customer-info">
-                    <div class="ym-block-title">Данные для оплаты</div>
-                    <input name="cps_phone" 
-                           class="ym-input" 
-                           placeholder="Телефон *" 
-                           type="tel" 
-                           value=""
-                           pattern="\+7\s?[\(]{0,1}[0-9]{3}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}"
-                           title="Формат: +7 (999) 123-45-67"
-                           required>
-                    <input name="custName" 
-                           class="ym-input" 
-                           placeholder="ФИО *" 
-                           type="text" 
-                           value=""
-                           required>
-                </div>
-                
-                <div class="ym-hidden-inputs"></div>
-                
-                <input name="sumEqualPrice" type="hidden" value="true">
-                
-                <div class="ym-payment-btn-block ym-before-line ym-align-space-between">
-                    <div class="ym-input-icon-rub">
+                <input name="custName" 
+                       class="ym-input" 
+                       placeholder="ФИО *" 
+                       type="text" 
+                       id="nameInput"
+                       required>
+            </div>
+            
+            <!-- Сумма оплаты -->
+            <div style="margin: 25px 0;">
+                <div class="ym-block-title">Сумма платежа</div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="flex: 1; position: relative;">
                         <input name="sum" 
-                               placeholder="Сумма, руб *" 
-                               class="ym-input ym-sum-input ym-required-input" 
+                               class="ym-input" 
+                               placeholder="0.00" 
                                type="number" 
-                               step="any"
+                               id="amountInput"
+                               step="0.01"
                                min="1"
                                max="1000000"
-                               required>
+                               required
+                               style="padding-left: 40px;">
+                        <span style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #666; font-weight: 500;">₽</span>
                     </div>
-                    <button data-text="Заплатить" 
-                            class="ym-btn-pay ym-result-price" 
-                            type="submit">
-                        <span class="ym-text-crop">Заплатить</span> 
-                        <span class="ym-price-output"></span>
+                    <button type="submit" class="ym-btn-pay">
+                        Заплатить
                     </button>
-                    <img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg?v=1.31.0" 
-                         class="ym-logo" 
-                         width="114" 
-                         height="27" 
-                         alt="ЮKassa">
                 </div>
-                
-                <!-- ВАЖНО: Замените 1243739 на ваш shopId! -->
-                <input name="shopId" type="hidden" value="1243739">
-            </form>
-            
-            <div class="security-badge">
-                <span>🔒 Безопасные платежи</span>
-                <span>✅ SSL-шифрование</span>
-                <span>💳 Visa / Mastercard / МИР</span>
             </div>
+            
+            <!-- Логотип ЮKassa -->
+            <div style="text-align: center; margin-top: 20px; opacity: 0.7;">
+                <div style="display: inline-block; background: #f5f5f5; padding: 8px 15px; border-radius: 6px;">
+                    <span style="color: #333; font-weight: 500;">Безопасные платежи через</span>
+                    <span style="color: #4CAF50; font-weight: 600; margin-left: 5px;">ЮKassa</span>
+                </div>
+            </div>
+        </form>
+        
+        <div class="security-info">
+            🔒 Данные защищены SSL-шифрованием<br>
+            💳 Поддержка Visa, Mastercard, МИР
         </div>
     </div>
     
-    <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.31.0"></script>
-    
+    <!-- ЛОКАЛЬНЫЙ JavaScript без внешних запросов -->
     <script>
-        // Маска для телефона
-        document.addEventListener('DOMContentLoaded', function() {
-            const phoneInput = document.querySelector('input[name="cps_phone"]');
+        function validateForm() {
+            // Валидация телефона
+            const phoneInput = document.getElementById('phoneInput');
+            const phoneValue = phoneInput.value.replace(/\D/g, '');
             
-            if (phoneInput) {
-                // Автозаполнение +7 при фокусе
-                phoneInput.addEventListener('focus', function() {
-                    if (!this.value) {
-                        this.value = '+7 ';
-                    }
-                });
-                
-                // Маска ввода
-                phoneInput.addEventListener('input', function(e) {
-                    let value = this.value.replace(/\D/g, '');
-                    
-                    if (value.length > 0) {
-                        if (value[0] === '8') {
-                            value = '7' + value.substring(1);
-                        }
-                        
-                        let formatted = '+7';
-                        if (value.length > 1) {
-                            formatted += ' (' + value.substring(1, 4);
-                        }
-                        if (value.length >= 5) {
-                            formatted += ') ' + value.substring(4, 7);
-                        }
-                        if (value.length >= 8) {
-                            formatted += '-' + value.substring(7, 9);
-                        }
-                        if (value.length >= 10) {
-                            formatted += '-' + value.substring(9, 11);
-                        }
-                        
-                        this.value = formatted;
-                    }
-                });
-                
-                // Валидация при потере фокуса
-                phoneInput.addEventListener('blur', function() {
-                    const phoneRegex = /^\+7\s?[\(]{0,1}[0-9]{3}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}$/;
-                    if (this.value && !phoneRegex.test(this.value)) {
-                        alert('Пожалуйста, введите корректный номер телефона\nПример: +7 (999) 123-45-67');
-                        this.focus();
-                    }
-                });
+            if (phoneValue.length < 11) {
+                alert('Пожалуйста, введите корректный номер телефона (11 цифр)');
+                phoneInput.focus();
+                return false;
+            }
+            
+            // Валидация имени
+            const nameInput = document.getElementById('nameInput');
+            if (nameInput.value.trim().length < 2) {
+                alert('Пожалуйста, введите ваше ФИО');
+                nameInput.focus();
+                return false;
             }
             
             // Валидация суммы
-            const sumInput = document.querySelector('input[name="sum"]');
-            if (sumInput) {
-                sumInput.addEventListener('blur', function() {
-                    const value = parseFloat(this.value);
-                    if (value < 1) {
-                        alert('Минимальная сумма платежа: 1 рубль');
-                        this.value = '';
-                        this.focus();
-                    } else if (value > 1000000) {
-                        alert('Максимальная сумма платежа: 1 000 000 рублей');
-                        this.value = '';
-                        this.focus();
-                    }
-                });
+            const amountInput = document.getElementById('amountInput');
+            const amount = parseFloat(amountInput.value);
+            
+            if (amount < 1) {
+                alert('Минимальная сумма платежа: 1 рубль');
+                amountInput.focus();
+                return false;
             }
+            
+            if (amount > 1000000) {
+                alert('Максимальная сумма платежа: 1 000 000 рублей');
+                amountInput.focus();
+                return false;
+            }
+            
+            // Все проверки пройдены
+            alert('Данные приняты. Вы будете перенаправлены на страницу оплаты ЮKassa.');
+            return true;
+        }
+        
+        // Маска для телефона
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('phoneInput');
+            
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                
+                if (value.length > 0) {
+                    // Преобразуем 8 в начало +7
+                    if (value.startsWith('8')) {
+                        value = '7' + value.substring(1);
+                    }
+                    // Если начинается не с 7, добавляем +7
+                    if (!value.startsWith('7')) {
+                        value = '7' + value;
+                    }
+                    
+                    // Форматируем
+                    let formatted = '+7';
+                    if (value.length > 1) {
+                        formatted += ' (' + value.substring(1, 4);
+                    }
+                    if (value.length >= 5) {
+                        formatted += ') ' + value.substring(4, 7);
+                    }
+                    if (value.length >= 8) {
+                        formatted += '-' + value.substring(7, 9);
+                    }
+                    if (value.length >= 10) {
+                        formatted += '-' + value.substring(9, 11);
+                    }
+                    
+                    e.target.value = formatted;
+                }
+            });
+            
+            // Автозаполнение +7 при фокусе
+            phoneInput.addEventListener('focus', function() {
+                if (!this.value) {
+                    this.value = '+7 ';
+                }
+            });
         });
     </script>
 </body>
