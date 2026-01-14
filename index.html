@@ -9,357 +9,517 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 500px;
             width: 100%;
-            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
         }
         
-        header {
+        .header {
+            background: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            width: 100%;
         }
         
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
+        .header h1 {
             font-size: 28px;
+            margin-bottom: 10px;
         }
         
-        .description {
-            color: #7f8c8d;
+        .header p {
+            opacity: 0.9;
             font-size: 16px;
-            max-width: 600px;
-            margin: 0 auto;
         }
         
-        .content-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            width: 100%;
+        .form-container {
+            padding: 30px;
         }
         
-        .info-section {
-            flex: 1;
-            min-width: 300px;
-            background-color: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        .form-group {
+            margin-bottom: 25px;
         }
         
-        .payment-section {
-            flex: 1;
-            min-width: 300px;
-        }
-        
-        .info-section h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .info-list {
-            list-style-type: none;
-        }
-        
-        .info-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid #f5f5f5;
-            display: flex;
-            align-items: center;
-        }
-        
-        .info-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .info-icon {
-            background-color: #e8f4fc;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            color: #3498db;
-            font-weight: bold;
-        }
-        
-        .payment-form-container {
-            background-color: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            width: 100%;
-        }
-        
-        .payment-form-container h2 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .form-notice {
-            background-color: #f8f9fa;
-            border-left: 4px solid #3498db;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 4px;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
             font-size: 14px;
         }
         
-        .payment-form-wrapper {
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .amount-input {
             position: relative;
         }
         
-        .payment-form-wrapper iframe {
-            width: 100%;
-            border: none;
-            min-height: 500px;
-            border-radius: 8px;
+        .amount-input::after {
+            content: '₽';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #666;
         }
         
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #95a5a6;
-            font-size: 14px;
+        .submit-btn {
             width: 100%;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+            padding: 18px;
+            background: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .security-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            border-left: 4px solid #4A00E0;
+        }
+        
+        .security-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .security-info ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .security-info li {
+            margin-bottom: 8px;
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .security-info li::before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
         }
         
         .loading {
+            display: none;
             text-align: center;
-            padding: 40px;
-            color: #7f8c8d;
+            padding: 20px;
+            color: #666;
         }
         
-        @media (max-width: 768px) {
-            .content-wrapper {
-                flex-direction: column;
-            }
-            
-            .info-section, .payment-section {
-                width: 100%;
-            }
-            
-            body {
-                padding: 15px;
-            }
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4A00E0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .success-message {
             display: none;
-            background-color: #d4edda;
-            color: #155724;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
             text-align: center;
-            border: 1px solid #c3e6cb;
+            padding: 40px 30px;
         }
         
-        .error-message {
-            display: none;
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            border: 1px solid #f5c6cb;
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 40px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Оплата музыкальных занятий</h1>
-            <p class="description">Заполните форму ниже для оплаты индивидуальных или групповых музыкальных занятий. После оплаты вы получите подтверждение на указанный email.</p>
-        </header>
+        <div class="header">
+            <h1>🎵 Музыкальные занятия</h1>
+            <p>Индивидуальные уроки игры на инструментах</p>
+        </div>
         
-        <div class="content-wrapper">
-            <div class="info-section">
-                <h2>Информация об оплате</h2>
-                <ul class="info-list">
-                    <li>
-                        <div class="info-icon">1</div>
-                        <div>
-                            <strong>Выберите сумму</strong>
-                            <div style="font-size: 14px; color: #7f8c8d; margin-top: 3px;">Укажите сумму оплаты в рублях</div>
+        <div id="paymentFormSection">
+            <div class="form-container">
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label for="sum">Сумма оплаты *</label>
+                        <div class="amount-input">
+                            <input type="number" 
+                                   id="sum" 
+                                   name="sum" 
+                                   required 
+                                   min="100" 
+                                   step="100"
+                                   value="2000"
+                                   placeholder="Введите сумму в рублях">
                         </div>
-                    </li>
-                    <li>
-                        <div class="info-icon">2</div>
-                        <div>
-                            <strong>Заполните контактные данные</strong>
-                            <div style="font-size: 14px; color: #7f8c8d; margin-top: 3px;">Укажите телефон и ФИО для связи</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="info-icon">3</div>
-                        <div>
-                            <strong>Добавьте комментарий (при необходимости)</strong>
-                            <div style="font-size: 14px; color: #7f8c8d; margin-top: 3px;">Укажите пожелания или особенности</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="info-icon">4</div>
-                        <div>
-                            <strong>Оплатите через ЮKassa</strong>
-                            <div style="font-size: 14px; color: #7f8c8d; margin-top: 3px;">Безопасный платёж банковской картой</div>
-                        </div>
-                    </li>
-                </ul>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Номер телефона *</label>
+                        <input type="tel" 
+                               id="phone" 
+                               name="phone" 
+                               required
+                               placeholder="+7 (999) 123-45-67"
+                               pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">ФИО *</label>
+                        <input type="text" 
+                               id="name" 
+                               name="name" 
+                               required
+                               placeholder="Иванов Иван Иванович">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email (для чека)</label>
+                        <input type="email" 
+                               id="email" 
+                               name="email"
+                               placeholder="ivanov@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comment">Комментарий к заказу</label>
+                        <textarea id="comment" 
+                                  name="comment"
+                                  placeholder="Укажите желаемый инструмент, время занятий или другие пожелания..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <span>💳 Перейти к оплате</span>
+                    </button>
+                </form>
                 
-                <div class="form-notice">
-                    <strong>Важно:</strong> После оплаты вы будете перенаправлены обратно на эту страницу. Сохраните номер транзакции для подтверждения оплаты.
-                </div>
-            </div>
-            
-            <div class="payment-section">
-                <div class="payment-form-container">
-                    <h2>Форма оплаты</h2>
-                    
-                    <div class="form-notice">
-                        Платёжная форма загружается из безопасного источника. Если форма не отображается, проверьте настройки безопасности браузера.
-                    </div>
-                    
-                    <div class="payment-form-wrapper">
-                        <!-- Здесь будет вставлена форма ЮKassa -->
-                        <div id="yookassa-form-container">
-                            <div class="loading">
-                                <p>Загрузка платёжной формы...</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="success-message" class="success-message">
-                        <h3>Оплата успешно завершена!</h3>
-                        <p>Спасибо за оплату. Мы свяжемся с вами в ближайшее время для уточнения деталей занятий.</p>
-                    </div>
-                    
-                    <div id="error-message" class="error-message">
-                        <h3>Произошла ошибка при оплате</h3>
-                        <p>Пожалуйста, попробуйте ещё раз или свяжитесь с нами для альтернативных способов оплаты.</p>
-                    </div>
+                <div class="security-info">
+                    <h3>Безопасная оплата через ЮKassa</h3>
+                    <ul>
+                        <li>Все платежи защищены банковским уровнем безопасности</li>
+                        <li>Поддержка карт Visa, Mastercard, МИР</li>
+                        <li>Возможность оплаты через СБП и электронные кошельки</li>
+                        <li>Мгновенное подтверждение оплаты</li>
+                    </ul>
                 </div>
             </div>
         </div>
         
-        <footer>
-            <p>© 2023 Музыкальные занятия. Все права защищены.</p>
-            <p>По вопросам оплаты обращайтесь: example@email.com</p>
-        </footer>
-    </div>
-
-    <!-- Форма ЮKassa -->
-    <div id="yookassa-form-html" style="display: none;">
-        <br><link rel="stylesheet" href="https://yookassa.ru/integration/simplepay/css/yookassa_construct_form.css?v=1.31.0">
-        <form class="yoomoney-payment-form" action="https://yookassa.ru/integration/simplepay/payment" method="post" accept-charset="utf-8" >
-
-            <div class="ym-products ym-display-none">
-            <div class="ym-block-title ym-products-title">Товары</div>
-
-            <div class="ym-product">
-                    <div class="ym-product-line">
-                        <span class="ym-product-description"><span class="ym-product-count">1×</span>Музыкальные занятия</span>
-                        <span class="ym-product-price" data-price="0.0" data-id="550" data-count="1">0,00&nbsp;₽</span>
-                    </div>
-                    
-                <input disabled="" type="hidden" name="text" value="Музыкальные занятия"><input disabled="" type="hidden" name="price" value="0.0"><input disabled="" type="hidden" name="quantity" value="1"><input disabled="" type="hidden" name="paymentSubjectType" value="commodity"><input disabled="" type="hidden" name="paymentMethodType" value="full_prepayment"><input disabled="" type="hidden" name="tax" value="1"></div></div>
-            <input value="" type="hidden" name="ym_merchant_receipt">
-
-            <div class="ym-customer-info">
-                <div class="ym-block-title">О покупателе</div>
-                
-                <input name="cps_phone" class="ym-input" placeholder="Телефон" type="text" value="">
-                <input name="custName" class="ym-input" placeholder="ФИО" type="text" value="">
-                
-                
-                <textarea class="ym-textarea" name="orderDetails" placeholder="Комментарий" value=""></textarea>
-            </div>
-
-            <div class="ym-hidden-inputs">
-               <input name="shopSuccessURL" type="hidden" value="https://3drums.github.io/?status=success">
-               
-               
-            </div>
-
-            <input name="customerNumber" type="hidden" value="Оплачивая занятия Вы соглашаетесь с обработкой персональных данных.">
-            <input name="sumEqualPrice" type="hidden" value="true">
-            <div class="ym-payment-btn-block ym-before-line ym-align-space-between">
-                <div class="ym-input-icon-rub">
-                    <input name="sum" placeholder="0.00" class="ym-input ym-sum-input ym-required-input" type="number" step="any">
-                </div>
-                <button data-text="Заплатить" class="ym-btn-pay ym-result-price"><span class="ym-text-crop">Заплатить</span> <span class="ym-price-output"></span></button><img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg?v=1.31.0" class="ym-logo" width="114" height="27" alt="ЮKassa">
-            </div>
-        <input name="shopId" type="hidden" value="1243739"></form>
-        <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.31.0"></script>
+        <div id="loadingSection" class="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Перенаправление на безопасную страницу оплаты...</p>
+        </div>
+        
+        <div id="successSection" class="success-message" style="display: none;">
+            <div class="success-icon">✓</div>
+            <h2>Оплата успешно завершена!</h2>
+            <p>Спасибо за оплату. Мы свяжемся с вами в течение 24 часов.</p>
+            <p>Номер транзакции: <strong id="transactionId"></strong></p>
+            <button onclick="window.location.reload()" class="submit-btn" style="margin-top: 20px;">
+                Вернуться к оплате
+            </button>
+        </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Вставляем форму ЮKassa в контейнер
-            const formContainer = document.getElementById('yookassa-form-container');
-            const formHtml = document.getElementById('yookassa-form-html').innerHTML;
-            formContainer.innerHTML = formHtml;
+        // Конфигурация
+        const CONFIG = {
+            shopId: '1243739',
+            productName: 'Музыкальные занятия',
+            successURL: window.location.origin + window.location.pathname,
+            testMode: false // Поставьте true для тестовых платежей
+        };
+        
+        // DOM элементы
+        const paymentForm = document.getElementById('paymentForm');
+        const paymentFormSection = document.getElementById('paymentFormSection');
+        const loadingSection = document.getElementById('loadingSection');
+        const successSection = document.getElementById('successSection');
+        const transactionIdElement = document.getElementById('transactionId');
+        
+        // Валидация формы
+        function validateForm(formData) {
+            const errors = [];
             
-            // Проверяем статус оплаты из URL
+            // Проверка суммы
+            if (!formData.sum || formData.sum < 100) {
+                errors.push('Минимальная сумма оплаты 100 рублей');
+            }
+            
+            // Проверка телефона
+            const phoneRegex = /^\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}$/;
+            if (!phoneRegex.test(formData.phone)) {
+                errors.push('Введите корректный номер телефона');
+            }
+            
+            // Проверка имени
+            if (!formData.name || formData.name.length < 2) {
+                errors.push('Введите ваше ФИО');
+            }
+            
+            return errors;
+        }
+        
+        // Форматирование телефона
+        function formatPhone(phone) {
+            return phone.replace(/[^\d+]/g, '');
+        }
+        
+        // Создание скрытой формы для отправки
+        function createHiddenForm(data) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'https://yookassa.ru/integration/simplepay/payment';
+            form.style.display = 'none';
+            
+            // Обязательные поля для ЮKassa
+            const formFields = {
+                shopId: CONFIG.shopId,
+                sum: data.sum,
+                cps_phone: formatPhone(data.phone),
+                custName: data.name.trim(),
+                orderDetails: data.comment || '',
+                customerNumber: `Телефон: ${formatPhone(data.phone)} | Email: ${data.email || 'не указан'}`,
+                sumEqualPrice: 'true',
+                text: CONFIG.productName,
+                price: data.sum,
+                quantity: '1',
+                paymentSubjectType: 'commodity',
+                paymentMethodType: 'full_prepayment',
+                tax: '1',
+                ym_merchant_receipt: JSON.stringify({
+                    customer: {
+                        email: data.email || '',
+                        phone: formatPhone(data.phone)
+                    },
+                    items: [{
+                        description: CONFIG.productName,
+                        quantity: 1,
+                        amount: {
+                            value: parseFloat(data.sum).toFixed(2),
+                            currency: 'RUB'
+                        },
+                        vat_code: 1,
+                        payment_mode: 'full_prepayment',
+                        payment_subject: 'commodity'
+                    }]
+                })
+            };
+            
+            // URL возврата (важно для GitHub Pages!)
+            const returnUrl = new URL(CONFIG.successURL);
+            returnUrl.searchParams.set('status', 'success');
+            returnUrl.searchParams.set('phone', encodeURIComponent(data.phone));
+            returnUrl.searchParams.set('sum', data.sum);
+            formFields.shopSuccessURL = returnUrl.toString();
+            
+            // Добавляем поля в форму
+            for (const [key, value] of Object.entries(formFields)) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            }
+            
+            // Добавляем тестовый режим если нужно
+            if (CONFIG.testMode) {
+                const testInput = document.createElement('input');
+                testInput.type = 'hidden';
+                testInput.name = 'test_payment';
+                testInput.value = 'true';
+                form.appendChild(testInput);
+            }
+            
+            return form;
+        }
+        
+        // Обработка отправки формы
+        paymentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Собираем данные формы
+            const formData = {
+                sum: document.getElementById('sum').value,
+                phone: document.getElementById('phone').value,
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value || '',
+                comment: document.getElementById('comment').value || ''
+            };
+            
+            // Валидация
+            const errors = validateForm(formData);
+            if (errors.length > 0) {
+                alert('Пожалуйста, исправьте ошибки:\n\n' + errors.join('\n'));
+                return;
+            }
+            
+            // Показываем загрузку
+            paymentFormSection.style.display = 'none';
+            loadingSection.style.display = 'block';
+            
+            // Создаем и отправляем форму
+            setTimeout(() => {
+                const hiddenForm = createHiddenForm(formData);
+                document.body.appendChild(hiddenForm);
+                hiddenForm.submit();
+            }, 1500); // Небольшая задержка для UX
+        });
+        
+        // Проверяем статус оплаты при загрузке страницы
+        function checkPaymentStatus() {
             const urlParams = new URLSearchParams(window.location.search);
             const status = urlParams.get('status');
             
             if (status === 'success') {
-                document.getElementById('success-message').style.display = 'block';
-                document.getElementById('error-message').style.display = 'none';
+                const phone = urlParams.get('phone');
+                const sum = urlParams.get('sum');
                 
-                // Прокручиваем к сообщению об успехе
-                setTimeout(() => {
-                    document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
-                }, 500);
-            } else if (status === 'error') {
-                document.getElementById('success-message').style.display = 'none';
-                document.getElementById('error-message').style.display = 'block';
+                // Генерируем номер транзакции
+                const transactionId = 'TXN-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+                transactionIdElement.textContent = transactionId;
                 
-                // Прокручиваем к сообщению об ошибке
-                setTimeout(() => {
-                    document.getElementById('error-message').scrollIntoView({ behavior: 'smooth' });
-                }, 500);
+                // Показываем сообщение об успехе
+                paymentFormSection.style.display = 'none';
+                loadingSection.style.display = 'none';
+                successSection.style.display = 'block';
+                
+                // Можно сохранить данные в localStorage
+                const paymentData = {
+                    phone: decodeURIComponent(phone),
+                    sum: sum,
+                    transactionId: transactionId,
+                    date: new Date().toLocaleString()
+                };
+                
+                try {
+                    localStorage.setItem('lastPayment', JSON.stringify(paymentData));
+                } catch (e) {
+                    console.log('Не удалось сохранить данные платежа');
+                }
+                
+                // Очищаем URL от параметров
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+        
+        // Запускаем проверку при загрузке
+        document.addEventListener('DOMContentLoaded', checkPaymentStatus);
+        
+        // Маска для телефона
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = this.value.replace(/\D/g, '');
+            
+            if (value.length === 0) {
+                this.value = '';
+                return;
             }
             
-            // Добавляем обработчик для отправки формы
-            document.addEventListener('submit', function(e) {
-                if (e.target && e.target.classList.contains('yoomoney-payment-form')) {
-                    console.log('Форма отправлена на ЮKassa');
-                    // Здесь можно добавить дополнительную логику перед отправкой
-                }
-            });
+            if (value[0] === '7' || value[0] === '8') {
+                value = value.substr(1);
+            }
+            
+            let formatted = '+7 ';
+            
+            if (value.length > 0) {
+                formatted += '(' + value.substr(0, 3);
+            }
+            if (value.length > 3) {
+                formatted += ') ' + value.substr(3, 3);
+            }
+            if (value.length > 6) {
+                formatted += '-' + value.substr(6, 2);
+            }
+            if (value.length > 8) {
+                formatted += '-' + value.substr(8, 2);
+            }
+            
+            this.value = formatted;
         });
     </script>
 </body>
