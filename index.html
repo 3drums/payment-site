@@ -1,105 +1,23 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оплата</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        
-        .payment-link {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background: #4CAF50;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
-            margin-top: 20px;
-        }
-    </style>
-</head>
+<html>
 <body>
-    <h2>Оплата музыкальных занятий</h2>
+    <h3>Для оплаты нажмите кнопку:</h3>
     
-    <div class="form-group">
-        <label>Телефон:</label>
-        <input type="tel" id="phone" placeholder="+7 (999) 123-45-67">
-    </div>
+    <form id="payForm" method="POST" action="https://yookassa.ru/integration/simplepay/payment" target="_blank">
+        <!-- Только обязательные поля -->
+        <input type="hidden" name="shopId" value="1243739">
+        <input type="hidden" name="sum" value="2000">
+        <input type="hidden" name="text" value="Музыкальные занятия">
+        <input type="hidden" name="price" value="2000">
+        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="sumEqualPrice" value="true">
+        
+        <!-- Кнопка отправки -->
+        <button type="submit" style="padding: 15px 30px; font-size: 16px;">
+            💳 Оплатить 2000 руб.
+        </button>
+    </form>
     
-    <div class="form-group">
-        <label>ФИО:</label>
-        <input type="text" id="name" placeholder="Иванов Иван Иванович">
-    </div>
-    
-    <div class="form-group">
-        <label>Сумма:</label>
-        <input type="number" id="sum" value="2000" min="100" step="100">
-    </div>
-    
-    <!-- Ссылка вместо формы -->
-    <a href="#" id="paymentLink" class="payment-link">
-        💳 Перейти к оплате
-    </a>
-    
-    <script>
-        document.getElementById('paymentLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const phone = document.getElementById('phone').value;
-            const name = document.getElementById('name').value;
-            const sum = document.getElementById('sum').value;
-            
-            if (!phone || !name) {
-                alert('Пожалуйста, заполните все обязательные поля');
-                return;
-            }
-            
-            // Создаем URL для ЮKassa
-            const params = new URLSearchParams({
-                shopId: '1243739',
-                sum: sum,
-                cps_phone: phone,
-                custName: name,
-                text: 'Музыкальные занятия',
-                price: sum,
-                quantity: '1',
-                paymentSubjectType: 'commodity',
-                paymentMethodType: 'full_prepayment',
-                tax: '1'
-            });
-            
-            // Явный переход по ссылке
-            window.open(
-                'https://yookassa.ru/integration/simplepay/payment?' + params.toString(),
-                '_blank'
-            );
-        });
-    </script>
+    <p><small>Вы будете перенаправлены на страницу ЮKassa</small></p>
 </body>
 </html>
