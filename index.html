@@ -56,7 +56,27 @@
             </div>
             <button data-text="Заплатить" class="ym-btn-pay ym-result-price"><span class="ym-text-crop">Заплатить</span> <span class="ym-price-output"></span></button><img src="https://yookassa.ru/integration/simplepay/img/iokassa-gray.svg?v=1.31.0" class="ym-logo" width="114" height="27" alt="ЮKassa">
         </div>
-    <input name="shopId" type="hidden" value="1243739"></form>
+    <input name="shopId" type="hidden" value="1243739">
+    <script>
+// Вставляем этот код прямо в форму
+document.querySelector('.yoomoney-payment-form').addEventListener('submit', function() {
+    const form = this;
+    const email = form.querySelector('[name="cps_email"]').value || 'не указан';
+    const phone = form.querySelector('[name="cps_phone"]').value || 'не указан';
+    const name = form.querySelector('[name="custName"]').value || 'не указан';
+    const comment = form.querySelector('[name="orderDetails"]').value || '';
+    
+    // Создаем текстовое описание с данными
+    const description = `Клиент: ${name} | Тел: ${phone} | Email: ${email} ${comment ? '| Коммент: ' + comment : ''}`;
+    
+    // Обновляем customerNumber
+    const customerField = form.querySelector('[name="customerNumber"]');
+    customerField.value = description + ' | Оплачивая занятия Вы соглашаетесь с обработкой персональных данных.';
+});
+</script>
+    
+    
+    </form>
     <script src="https://yookassa.ru/integration/simplepay/js/yookassa_construct_form.js?v=1.31.0"></script>
 </body>
 </html>
