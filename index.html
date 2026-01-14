@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html>
-<body>
-    <h3>Для оплаты нажмите кнопку:</h3>
+<body style="text-align: center; padding: 50px;">
+    <h3>Оплата музыкальных занятий</h3>
     
-    <form id="payForm" method="POST" action="https://yookassa.ru/integration/simplepay/payment" target="_blank">
-        <!-- Только обязательные поля -->
+    <form method="POST" 
+          action="https://yookassa.ru/integration/simplepay/payment"
+          target="_blank">
+        
+        <!-- Обязательные поля -->
         <input type="hidden" name="shopId" value="1243739">
         <input type="hidden" name="sum" value="2000">
         <input type="hidden" name="text" value="Музыкальные занятия">
         <input type="hidden" name="price" value="2000">
         <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="paymentSubjectType" value="commodity">
+        <input type="hidden" name="paymentMethodType" value="full_prepayment">
+        <input type="hidden" name="tax" value="1">
         <input type="hidden" name="sumEqualPrice" value="true">
         
-        <!-- Кнопка отправки -->
         <button type="submit" style="padding: 15px 30px; font-size: 16px;">
             💳 Оплатить 2000 руб.
         </button>
     </form>
     
-    <p><small>Вы будете перенаправлены на страницу ЮKassa</small></p>
+    <p><small>Вы будете перенаправлены на страницу ЮKassa для оплаты</small></p>
 </body>
 </html>
